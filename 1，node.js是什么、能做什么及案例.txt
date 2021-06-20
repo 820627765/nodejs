@@ -1,0 +1,71 @@
+1，什么是Node.js
+Nodejs 是基于Chrome的V8 JavaScript 引擎的 JavaScript运行时环境。简称js的宿主环境。
+JavaScript后面用JS替代。
+
+2，其他的JavaScript运行时环境？
+浏览器也是JS的运行时环境。
+
+3，Node.js的特性（Node.js可以做什么）？
+Node.js可以解析JS代码（没有浏览器安全级别的限制，如浏览器的同源策略），提供很多系统级别的API，如：
+- 文件的读取（File System）
+- 进程的管理（Process）
+- 网络通信（HTTP/HTTPS）
+......
+
+
+4，安装Node.js 环境
+- 下载Node.js 安装包，傻瓜式安装即可
+- 通过命令测试是否安装成功
+  node -v 
+  npm -v 
+
+
+
+5，node.js 案例（node.js的简单案例使用）
+- 通过node.js 来执行js脚本文件。（源码在01-safe-sandbox目录的代码）
+  1）编写server.js 脚本文件
+  2）通过Node.js 命令来执行该脚本 node server.js
+  
+
+- 通过工具开启一个web服务端，并访问网页。（源码在01-safe-sandbox目录的代码）
+  1）编写 index.html
+  2）启动一个web服务端，通过 npx http-server ，默认端口号是 8080
+  3）访问页面
+
+- 通过Node.js 提供的api操作系统文件。（源码在02-fs目录的代码）
+  1）编写index.js
+  2）编写操作文件的代码
+  3）通过Node.js 命令来执行该脚本 node index.js #回车，会发现文件已经创建了
+
+- 通过Node.js 操作系统进程。（源码在03-process）
+  可以通过 process 来操作进程的一些内容
+
+- 通过Node.js 实现网络通信。（源码在03-http(s)）
+  1）编写server.js 文件，并编写Server代码
+  2）通过Node.js 命令来执行该脚本 node server.js 
+  3）通过浏览器就能访问了
+
+
+
+
+注意：使用Visual Studio Code 开始第一个项目并运行
+- 通过npx http-server 来开启一个服务，并访问网页
+1），使用 file->open Folder 选择要打开的文件夹（此处的文件夹我把它理解成一个工作空间的概念，后面不对再补充）
+2），在这个文件夹创建一个总的项目目录来管理所有子项目  node-bases
+3），创建第一个项目文件夹 01-safe-sandbox 
+4），在项目文件夹中创建 index.html 文件，并编写案例中的代码
+5），运行这个项目
+     - 打开VSCode 的终端工具 Terminal
+     - 运行 npx http-server   #回车，启动好后会出现一些端口提示，默认服务端端口号为 8080
+     - 浏览器访问 http://localhost:8080 ，可以展示出当前目录下的所有子目录及文件访问
+     - 进入项目对应的目录，点击 index.html 即可访问该页面了
+
+- 通过node命令来执行js脚本
+1），打开终端
+2），进入js所在的文件夹
+3），执行命令：node js脚本文件全名，如 node index.js   #回车，从结果看没有了跨域问题
+    
+
+
+
+

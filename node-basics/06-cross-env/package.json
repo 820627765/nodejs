@@ -1,0 +1,20 @@
+{
+  "name": "06-cross-env",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"cross-env NODE_ENV=dev gulp -f ./gulpfile.js",
+    "prod":"cross-env NODE_ENV=production gulp -f ./gulpfile.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}

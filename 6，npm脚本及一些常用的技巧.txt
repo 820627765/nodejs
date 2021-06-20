@@ -1,0 +1,40 @@
+1，npm 脚本指的是什么呢？
+在package.json 中的 "scripts" 内容，如：
+{
+    "scripts":{
+        "hello":"echo hello"  # 这就是npm脚本中的一个脚本。
+    }
+
+}
+
+2，怎么运行npm 脚本呢？ 
+npm run 脚本名  如：npm run hello   就会去执行 hello 所对应的内容，此例子中为 echo hello ,即输出 hello .
+
+
+3，自定义 npm 脚本
+1）新建 script1.js 和  script2.js
+2）将脚本配置为 npm 脚本
+    "scripts":{
+        "runjs":"node ./script1.js & node ./script2.js",   # 通过 & 符号来连接执行多个脚本，两个脚本是并行执行的。  如果用 && 就是串行的。
+        "start":"node ./script1.js", # 注意，start 和 test 是比较特殊的npm脚本，如果名字是这两个，在执行npm 脚本是，可省去 run，即 npm start/test 即可。
+        "test":"node ./script1.js", 
+        "build":"echo $npm_package_要访问的key_要访问的key"  # 直接在脚本配置中，获取 package.json 中的其他配置。多级别用 _ 分割。                                            
+    }
+
+3）运行脚本：
+   npm run runjs 
+   总结：以前我们会使用 node script1.js ，现在直接通过 npm 脚本来执行。
+
+
+
+4，如何在脚本中获取 package.json 中配置的内容？
+如要获取
+{
+    "config":{
+        "env":"production"
+    }
+}
+    
+可以使用：console.log(process.env.npm_package_配置的名称_配置的key); 如：console.log(process.env.npm_package_config_env);
+注意：在脚本中，想要访问 package.json 中的配置内容，只能通过 npm 脚本的方式去运行，才能访问。直接通过 node script.js 是不能获取的。
+

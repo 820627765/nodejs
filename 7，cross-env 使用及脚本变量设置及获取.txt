@@ -1,0 +1,24 @@
+1，cross-env 是什么？
+运行跨平台设置和使用环境变量的脚本。
+
+2，出现的原因？
+当使用 NODE_ENV=production 来设置环境变量的时候，大多数Windows命令提示将会阻塞（报错），也就是Windows不支持NODE_ENV=production的设置方式。
+怎么解决呢？
+cross-env 这个包能够提供一个设置环境变量的 scripts ，让你能够以 Unix 的方式设置环境变量，然后再windows 上也能兼容。
+
+3，怎么使用呢？
+1）安装 npm install cross-env -S 
+2）在 package.json 中配置 脚本
+{
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev":"cross-env NODE_ENV=dev gulp -f ./gulpfile.js",
+        "prod":"cross-env NODE_ENV=production gulp -f ./gulpfile.js"    
+    },
+}
+其中，NODE_ENV 环境变量将由 cross-env 设置。 
+想要在代码中获取到该环境变量只可以使用  process.env.NODE_ENV 获取到。
+
+const node_env = process.env.NODE_ENV;
+console.log(node_env);
+

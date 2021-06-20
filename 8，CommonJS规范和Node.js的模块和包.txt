@@ -1,0 +1,43 @@
+1，CommonJS 规范
+它是Node.js 引入的一个“第三方”的规范。但是，Node.js 已经将 CommonJS 纳入到自己的体系中了，这也让CommonJS发扬光大了。
+浏览器是不支持CommonJS的。
+
+2，如何使用CommonJS规范的规范？
+1）定义模块
+2）暴露模块
+3）引入模块
+4）调用模块
+
+3，使用CommonJS规范实现模块化编程？
+1）新建一个文件 name.js ，我们就当这就是我们的一个模块
+2）编写内容
+   //1.定义一个模块
+   const name = {
+       surname:'zhang',
+       sayName(){
+           console.log(this.surname);
+       }
+   };
+
+   const age = {
+       age:100
+   };
+
+   
+   //2.暴露模块，这里同时将 name 和 age 两个模块都暴露出去。
+   module.exports = {name,age};
+   或者
+   exports.name = name;  //表示对外暴露一个 name 
+   exports.age = age;    //表示对外暴露一个 age  , 这两句等于上面那个 module.exports
+   如上的 module.exports 和 exports 都可以暴露模块出去。exports 是 module.exports 的引用（即可以看成 const exports = module.exports）。
+   但是需要注意：exports 不能写成  exports = {name,age} 。因为这样就相当于将 module.exports 所引用的对象给修改了（先这样理解吧....）
+
+
+
+3）引入模块(在另外一个脚本文件中引入模块，如 app.js)
+    //3.引入模块
+    const {name,age} = require('./name.js');  //注意，name.js 可以省略 .js , 但是推荐将 .js 加上。
+    //4.调用模块
+    name.sayName();
+    console.log(age.age);
+

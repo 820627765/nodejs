@@ -1,0 +1,62 @@
+1，Node.js 有三种类型的包
+1）Node.js 内置的包（或叫模块），如 path
+  * 任何Node.js内置的包，我们都可以拿过来使用。
+  * 在js文件中通过 require('模块名') 的形式来引入模块功能，就可以使用。 如：
+    const path = require('path');  //这时一个路径处理模块
+    console.log(path.resolve(__dirname)); //path.resolve(); 可以解析一个路径。
+    path.resolve(__dirname,'../'); 获取到当前代码所在的文件的目录的上一层目录。
+
+  * __dirname 代表当前代码所在文件所在的文件夹的物理路径。
+
+2）Node.js第三方的模块（包）
+   npm有个仓库：https://npmjs.com 在该仓库中保存了很多第三方的模块。可以去注册一个账号，并查看一些常用的第三方模块，如axios。
+   如何在项目中使用第三方包：
+   第一：npm i axios -S   #将axios这个包安装到当前项目中。
+   第二：在js文件中引入该报 
+         const axios = require('axios');
+   第三：使用
+         axios.get('http://www.baidu.com').then(result=>{
+            console.log(result.data);
+         }).catch((err)=>{
+            console.log('访问出错了');
+         });
+    第四：执行 node app.js 
+
+3）自定包
+    第一：新建一个包，用于存放代码，如叫 custom
+    第二：进入custom目录并执行 npm init -y  。这个步骤主要是在该目录下生成了一个 package.json 的文件，作用和前面讲的package.json 是一样的。
+    第三：新建 index.js 
+    第四：如果该包需要依赖其他包，则在当前 custom 包下执行 npm i 包名 -S ，会在custom 包下生成 node_modules 目录存放依赖的包内容。如 npm i lodash -S
+    第五：在index.js中编写包功能逻辑：
+          const _ = require('lodash');
+          function myChunk(){
+            let arr = [4,5,6,7];
+            let arr1 = _.chunk(arr,2);
+            return arr1; 
+          }
+
+          // ** 这个写法就很重要要，表示将指定的函数对象暴露出去，只有暴露出去，引入者才能使用这个函数。**
+          module.exports = myChunk;
+          
+    第六：先看一下 package.json 的内容代表什么意思
+          "main":"index.js"   # 指定当前模块对外暴露的文件。即其他人要用这个模块，那么这个模块那个文件直接对外暴露。此处为 index.js 对外暴露。
+          "name":"custom"     # 指定当前包名，如果发布到npm 仓库，名字也是这个。别人要引入这个模块，也通过这个名字来引入 require('custom');
+          "version":"1.0.1"   # 指定当前包的版本。
+          "description":"描述信息"  # 指定包的描述信息
+          "license":""
+
+                              
+    第七：测试引用自定义的包，并使用
+          新建 test.js ,内容为：
+            const myA = require('./index.js');
+            const result = myA();
+            console.log(result);
+    第八：执行 test.js 。 node test.js 
+
+    第九：将我们自定义的包发出去，给别人用。
+         npm config get registry 查看源是否时 https://registry.npmjs.org ,如果不是需要先切换为这个
+         npm adduser  #回车，然后需要输入用户名和密码 。会显示一登陆的信息
+         npm publish  #执行完成后，就将这个包发布到 npm 的世界仓库中了，可以查看别人也可以用。 注意：这个发布的包名必须全网唯一，否则会发布失败。
+
+
+  
