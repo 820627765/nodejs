@@ -1,3 +1,7 @@
 1，url 模块
-
+    const url = require('url');
+    const urlStr = 'https://www.baidu.com/path/index.html?id=2';
+    console.log(url.parse(urlStr));  //解析路径，会返回一个解析后的对象。
 2，
+
+其他的内置模块，后面再慢慢研究 ....

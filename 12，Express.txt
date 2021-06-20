@@ -1,0 +1,97 @@
+1，什么是Express？
+是一个保持最小规模的灵活的Node.js Web应用程序开发框架，为Web和移动应用程序提供一组强大的功能。
+基于Node.js的一个及简的Web开发框架。
+
+2，搭建一个express项目
+1）新建一个项目目录，如 08-express-basic
+2）初始化项目，npm init -y 
+3）安装express
+   npm i express -S 
+
+4）express 使用
+4.1）use 的使用
+   use('/匹配的url',回调逻辑s);
+
+   const express = require('express');
+   const app = express();
+   //无路径的use
+   app.use((req,res,next)=>{....});
+   //带路径，且一个回调的use
+   app.use('/路径',(req,res,next)=>{...});
+   //带路径，且有多个回调的use，多个回调之间是顺序执行的，但是要注意，下一个回调的执行要靠上一个回调执行 next();
+   app.use('/路径',[(req,res,next)=>{...},(req,res,next)=>{...}]);
+
+   注意：这种写法，是只要请求的请求资源路径中带有 use 指定的路径，就会匹配。
+        有多个use都匹配时，先定义的先执行。如果匹配的下一个use 需要执行，得上一个 use 的回调中调用 next();
+        无路径的use，匹配一切。
+
+    //监听8080端口
+    app.listen(8080,()=>{
+        console.log('localhost:8080');
+    });
+   
+   
+
+4.2）express 路由的使用并接收get或post或put或delete或patch请求参数
+
+   const express = require('express');
+   const bodyParser = require('body-parser'); //解析post表单请求参数的中间件
+   const app = express();
+
+   //对于表单post请求，需要使用这个中间件才能处理，先记住。use定义在最前面，所以会先执行
+   app.use(bodyParser.urlencoded({extended:false}));
+   //解析前端传递过来的json字符串
+   app.use(bodyParser.json());
+
+   //获取路由中间件
+   const router = express.Router();
+   //匹配get请求的路径，这里是精确匹配
+   router.get('/路径',(req,rep,next)=>{
+       const query = req.query; //获取get请求参数，会获得一个 json对象
+   });
+   //匹配post请求的路径，这里是精确匹配
+   router.post('/路径',(req,rep,next)=>{
+       const body = req.body;  //获取get 请求参数，会得到一个 json对象，这个要依赖 body-parser 的那个中间件。
+   });
+   //匹配put请求请求的路径，这里是精确匹配，put 是覆盖需改，几乎是所有字段全改
+   router.put('/路径',(req,rep,next)=>{
+       const body = req.body;  //获取get 请求参数，会得到一个 json对象，这个要依赖 body-parser 的那个中间件。
+   });
+   //匹配patch请求请求的路径，这里是精确匹配。patch 是增量需改，只是修改1个字段或很少的字段
+   router.patch('/路径',(req,rep,next)=>{
+       const body = req.body;  //获取get 请求参数，会得到一个 json对象，这个要依赖 body-parser 的那个中间件。
+   });
+   //匹配delete请求请求的路径，这里是精确匹配
+   router.delete('/路径',(req,rep,next)=>{
+       const body = req.query; 
+   });
+
+   //能匹配所有的请求，交给路由去处理
+   app.use('/',router);
+
+
+   //监听8080端口
+    app.listen(8080,()=>{
+        console.log('localhost:8080');
+    });
+
+
+4.3）将处理逻辑抽离 路由
+    注意：上面使用路由后，如果进入路由后，最终没有找到匹配的处理，则会报 404 
+    router.all('/index',()=>{}); //能匹配post/get/put/delete/patch 类型的请求。
+
+    将所有的处理逻辑，单独放到 controller.js 中，逻辑如下：
+     const list = (req,res,next)=>{
+         //查询列表数据，然后返回
+         res.send('要响应前端的数据');
+     }
+
+     exports.list = list;
+
+
+    然后再路由中可以修改为：
+    const {list} = require('controller.js');
+    router.get('/list',list);
+
+
+   
